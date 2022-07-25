@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Elgraiv.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VSTControllerNetInterop\VSTControllerNetInterop.vcxproj" />
+  </ItemGroup>
+
+</Project>
