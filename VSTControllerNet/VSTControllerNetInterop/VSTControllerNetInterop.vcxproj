@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="src\impl\DevRelayConnector.cpp" />
     <ClCompile Include="src\impl\VstAudioProcessor.cpp" />
     <ClCompile Include="src\impl\VstClassInfo.cpp" />
     <ClCompile Include="src\impl\VstConnectionPoint.cpp" />
@@ -89,6 +90,7 @@
     <ClCompile Include="src\impl\VstVirtualConnectionPoint.Native.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\impl\DevRelayConnector.hpp" />
     <ClInclude Include="src\impl\Utils.hpp" />
     <ClInclude Include="src\impl\VstAudioProcessor.Bridge.hpp" />
     <ClInclude Include="src\impl\VstClassInfo.Bridge.hpp" />

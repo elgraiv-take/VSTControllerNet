@@ -1,12 +1,28 @@
 #include "VstConnectionPoint.Bridge.hpp"
 #include <pluginterfaces/vst/ivstmessage.h>
+#include "DevRelayConnector.hpp"
 
 namespace Elgraiv::VstControllerNet::Interop {
+	namespace Dev {
+		ref class InstanceHolder {
+		public:
+			static RelayConnector^ g_connector;
+		};
+	}
 
 	void VstConnectionPoint::Bridge::Connect(VstConnectionPoint::Bridge^ a, VstConnectionPoint::Bridge^ b)
 	{
-		a->_native->connect(&**b->_native);
-		b->_native->connect(&**a->_native);
+
+		auto relay = gcnew Dev::RelayConnector();
+
+		relay->ConnectionA->connect(&**a->_native);
+		relay->ConnectionB->connect(&**b->_native);
+		a->_native->connect(&**relay->ConnectionA);
+		b->_native->connect(&**relay->ConnectionB);
+
+
+
+		Dev::InstanceHolder::g_connector = relay;
 	}
 	
 	VstConnectionPoint::Bridge::Bridge(ManagedModuleHandle<Steinberg::Vst::IConnectionPoint>^ handle) :_native(handle)

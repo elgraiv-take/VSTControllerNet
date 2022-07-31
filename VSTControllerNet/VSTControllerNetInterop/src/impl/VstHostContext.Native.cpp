@@ -3,7 +3,7 @@
 
 #include <public.sdk/source/vst/hosting/hostclasses.h>
 #include <public.sdk/source/vst/hosting/parameterchanges.h>
-#include "public.sdk/source/vst/utility/stringconvert.h"
+#include <public.sdk/source/vst/utility/stringconvert.h>
 
 namespace Elgraiv::VstControllerNet::Native {
 
