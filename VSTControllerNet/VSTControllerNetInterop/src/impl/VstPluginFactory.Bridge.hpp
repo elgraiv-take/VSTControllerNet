@@ -7,6 +7,10 @@
 
 namespace Steinberg {
 	class IPluginFactory;
+	namespace Vst {
+		class IEditController;
+		class IComponent;
+	}
 }
 
 namespace Elgraiv::VstControllerNet::Interop {
@@ -25,7 +29,8 @@ namespace Elgraiv::VstControllerNet::Interop {
 			}
 		}
 		
-		VstController::Bridge^ CreateControllerInstance(const Steinberg::FIDString& cid);
+		Steinberg::Vst::IEditController* CreateControllerInstance(const Steinberg::FIDString& cid);
+		Steinberg::Vst::IComponent* CreateAudioProcessorInstance(const Steinberg::FIDString& cid);
 
 	private:
 		Steinberg::IPluginFactory* _nativeFactory{ nullptr };

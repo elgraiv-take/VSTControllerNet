@@ -26,10 +26,10 @@ namespace Elgraiv::VstControllerNet::Interop {
 		}
 
 		const Steinberg::PClassInfo& GetNativeInfo() {
-			return _data->GetData();
+			return *(*_data);
 		}
 
-		void CreateInstance();
+		interface class IVstModule^ CreateInstance(VstClassInfo^ wrapper, ref class VstHostContext^ context);
 
 	private:
 		NativeStructHolder<Steinberg::PClassInfo>^ _data;

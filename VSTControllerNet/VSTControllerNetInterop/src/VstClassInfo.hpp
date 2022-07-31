@@ -6,7 +6,7 @@ namespace Elgraiv::VstControllerNet::Interop {
 	public enum class ClassType
 	{
 		Unknown,
-		AudioModule,
+		AudioProcessor,
 		Controller,
 	};
 
@@ -21,7 +21,7 @@ namespace Elgraiv::VstControllerNet::Interop {
 		property ClassType Type {
 			ClassType get();
 		}
-		void CreateInstance();
+		interface class IVstModule^ CreateInstance(ref class VstHostContext^ context);
 	private:
 		Bridge^ _bridge;
 	};

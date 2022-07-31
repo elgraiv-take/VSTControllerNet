@@ -19,6 +19,24 @@
     <ClCompile Include="src\impl\VstController.cpp">
       <Filter>src\impl</Filter>
     </ClCompile>
+    <ClCompile Include="src\impl\VstHostContext.Native.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\impl\VstHostContext.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\impl\VstControllerView.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\impl\VstVirtualConnectionPoint.Native.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\impl\VstAudioProcessor.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\impl\VstConnectionPoint.cpp">
+      <Filter>src\impl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VstPluginFactory.hpp">
@@ -39,11 +57,35 @@
     <ClInclude Include="src\VstModule.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\impl\VstAudioModule.Bridge.hpp">
+    <ClInclude Include="src\impl\VstAudioProcessor.Bridge.hpp">
       <Filter>src\impl</Filter>
     </ClInclude>
     <ClInclude Include="src\impl\VstController.Bridge.hpp">
       <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VstHostContext.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\impl\VstHostContext.Native.hpp">
+      <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\impl\VstHostContext.Bridge.hpp">
+      <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VstControllerView.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\impl\VstControllerView.Bridge.hpp">
+      <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\impl\VstVirtualConnectionPoint.Native.hpp">
+      <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\impl\VstConnectionPoint.Bridge.hpp">
+      <Filter>src\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VstConnectionPoint.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

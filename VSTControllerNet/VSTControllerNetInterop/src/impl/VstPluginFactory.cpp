@@ -22,11 +22,18 @@ namespace Elgraiv::VstControllerNet::Interop {
 		}
 	}
 
-	VstController::Bridge^ VstPluginFactory::Bridge::CreateControllerInstance(const Steinberg::FIDString& cid)
+	Steinberg::Vst::IEditController* VstPluginFactory::Bridge::CreateControllerInstance(const Steinberg::FIDString& cid)
 	{
 		Steinberg::Vst::IEditController* controller;
-		_nativeFactory->createInstance(cid, Steinberg::Vst::IEditController_iid, (void**)&controller);
-		return gcnew VstController::Bridge(controller);
+		auto result = _nativeFactory->createInstance(cid, Steinberg::Vst::IEditController_iid, (void**)&controller);
+		return controller;
+
+	}
+	Steinberg::Vst::IComponent* VstPluginFactory::Bridge::CreateAudioProcessorInstance(const Steinberg::FIDString& cid)
+	{
+		Steinberg::Vst::IComponent* controller;
+		auto result = _nativeFactory->createInstance(cid, Steinberg::Vst::IComponent_iid, (void**)&controller);
+		return controller;
 
 	}
 

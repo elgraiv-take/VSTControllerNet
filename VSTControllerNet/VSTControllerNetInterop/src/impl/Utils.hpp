@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pluginterfaces/base/funknown.h>
 namespace Elgraiv::VstControllerNet::Interop {
 	template<typename T>
 	ref class NativeStructHolder {
@@ -20,10 +21,13 @@ namespace Elgraiv::VstControllerNet::Interop {
 			
 		}
 
-		T& GetData() {
-			return *_data;
+		T* operator ->() {
+			return _data;
 		}
 
+		static T& operator*(NativeStructHolder<T>% self) {
+			return *self._data;
+		}
 	private:
 		T* _data{ nullptr };
 	};
@@ -31,6 +35,13 @@ namespace Elgraiv::VstControllerNet::Interop {
 	template<typename T>
 	ref class ManagedModuleHandle {
 	public:
+		template<typename TInterface>
+		ManagedModuleHandle<TInterface>^ QueryInterface() {
+			TInterface* targetIf;
+			_module->queryInterface(TInterface::iid, reinterpret_cast<void**>(&targetIf));
+			return gcnew ManagedModuleHandle<TInterface>(targetIf);
+		}
+
 		ManagedModuleHandle(T* module):_module(module) {
 
 		}
@@ -43,16 +54,25 @@ namespace Elgraiv::VstControllerNet::Interop {
 			return _module != nullptr;
 		}
 
+		static T& operator*(ManagedModuleHandle<T>% self) {
+			return *self._module;
+		}
+
 		!ManagedModuleHandle() {
-			_module->release();
+			if (_module) {
+				_module->release();
+			}
 			_module = nullptr;
 		}
 		~ManagedModuleHandle() {
-			_module->release();
+			if (_module) {
+				_module->release();
+			}
 			_module = nullptr;
 		}
 	private:
 		T* _module{ nullptr };
 	};
+
 
 }

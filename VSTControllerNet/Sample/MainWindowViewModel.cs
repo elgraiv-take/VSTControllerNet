@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Sample
@@ -35,12 +37,23 @@ namespace Sample
             set => _model.VstPath = value;
         }
         public ICommand LoadCommand { get; }
+        public ICommand ConstructCommand { get; }
+
+        public ObservableCollection<ModuleInfoViewModel> IncludeModules { get; } = new ObservableCollection<ModuleInfoViewModel>();
 
         public MainWindowViewModel(MainModel model)
         {
             _model = model;
             _model.PropertyChanged += OnModelPropertyChanged;
             LoadCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(Load);
+            ConstructCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(Construct);
+        }
+
+        private void Construct()
+        {
+            var window = new Window();
+            window.Show();
+            _model.Construct(window);
         }
 
         private void Load()
@@ -57,7 +70,15 @@ namespace Sample
 
         private void OnModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            OnPropertyChanged("");//雑
+            if (e.PropertyName == nameof(_model.LoadedVst))
+            {
+                IncludeModules.Clear();
+                foreach (var m in _model.Modules)
+                {
+                    IncludeModules.Add(new ModuleInfoViewModel(m));
+                }
+                OnPropertyChanged("");
+            }
         }
 
         public MainWindowViewModel() : this(new MainModel())

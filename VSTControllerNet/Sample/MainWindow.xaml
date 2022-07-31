@@ -10,8 +10,23 @@
         <Button Content="{Binding Path=LoadButtonLabel}" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="66" Command="{Binding Path=LoadCommand}"/>
         <TextBox Margin="10,10,10,0" TextWrapping="NoWrap" Text="{Binding Path=Path}" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="81,35,0,0" TextWrapping="NoWrap" Text="{Binding Path=StatusLabel}" VerticalAlignment="Top"/>
-        <ItemsControl Margin="10,58,10,10" ItemsSource="{Binding Path=IncludeClasses}">
+        <ItemsControl Margin="10,58,10,10" ItemsSource="{Binding Path=IncludeModules}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Name}" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{Binding Path=Category}" Grid.Column="1"></TextBlock>
+                        <Button Command="{Binding Path=CreateInstanceCommand}" Content="Create" Grid.Column="2" Width="50" HorizontalAlignment="Left"></Button>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="180,33,0,0" VerticalAlignment="Top" Command="{Binding Path=ConstructCommand}"/>
 
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using Elgraiv.VstControllerNet.Util;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Elgraiv.VstControllerNet
 {
+
+    using VstClassInfo = Elgraiv.VstControllerNet.Interop.VstClassInfo;
     public class VstAssembly: DisposableBase
     {
         private delegate IntPtr GetPluginFactoryNative();
@@ -25,15 +28,18 @@ namespace Elgraiv.VstControllerNet
         }
 
         private Interop.VstPluginFactory? _pluginFactory;
-        private Interop.VstClassInfo[]? _classInfos;
+
+        public ReadOnlyCollection<VstModuleInfo> Modules { get; private set; } = new ReadOnlyCollection<VstModuleInfo>(Array.Empty<VstModuleInfo>());
 
         private IntPtr _handle;
         public string Path { get; }
         public bool IsValid { get; private set; } = false;
 
-        internal VstAssembly(string path)
+        private VstHost _host;
+        internal VstAssembly(string path, VstHost host)
         {
             Path = path;
+            _host = host;
         }
         internal bool Load()
         {
@@ -49,7 +55,8 @@ namespace Elgraiv.VstControllerNet
                 return false;
             }
             _pluginFactory = new Interop.VstPluginFactory(getterHandle);
-            _classInfos = _pluginFactory.ClassInfos.ToArray();
+            var classInfos = _pluginFactory.ClassInfos.ToArray();
+            Modules = Array.AsReadOnly(classInfos.Select(item => new VstModuleInfo(item,_host)).ToArray());
             IsValid = true;
             return true;
         }

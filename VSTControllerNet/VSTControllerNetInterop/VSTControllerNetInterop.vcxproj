@@ -60,7 +60,7 @@
       <AdditionalIncludeDirectories>$(ExternalLibs)vst3sdk\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>Ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -73,24 +73,49 @@
       <AdditionalIncludeDirectories>$(ExternalLibs)vst3sdk\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>Ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="src\impl\VstAudioProcessor.cpp" />
     <ClCompile Include="src\impl\VstClassInfo.cpp" />
+    <ClCompile Include="src\impl\VstConnectionPoint.cpp" />
     <ClCompile Include="src\impl\VstController.cpp" />
+    <ClCompile Include="src\impl\VstControllerView.cpp" />
+    <ClCompile Include="src\impl\VstHostContext.cpp" />
+    <ClCompile Include="src\impl\VstHostContext.Native.cpp" />
     <ClCompile Include="src\impl\VstPluginFactory.cpp" />
+    <ClCompile Include="src\impl\VstVirtualConnectionPoint.Native.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\impl\Utils.hpp" />
-    <ClInclude Include="src\impl\VstAudioModule.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstAudioProcessor.Bridge.hpp" />
     <ClInclude Include="src\impl\VstClassInfo.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstConnectionPoint.Bridge.hpp" />
     <ClInclude Include="src\impl\VstController.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstControllerView.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstHostContext.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstHostContext.Native.hpp" />
     <ClInclude Include="src\impl\VstPluginFactory.Bridge.hpp" />
+    <ClInclude Include="src\impl\VstVirtualConnectionPoint.Native.hpp" />
     <ClInclude Include="src\VstClassInfo.hpp" />
+    <ClInclude Include="src\VstConnectionPoint.hpp" />
+    <ClInclude Include="src\VstControllerView.h" />
+    <ClInclude Include="src\VstHostContext.hpp" />
     <ClInclude Include="src\VstModule.hpp" />
     <ClInclude Include="src\VstPluginFactory.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\external.Build\vst3sdk\base\base.vcxproj">
+      <Project>{7044d851-87d2-38ce-95aa-a3d90ee9af4e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\external.Build\vst3sdk\pluginterfaces\pluginterfaces.vcxproj">
+      <Project>{e25c49e4-eb49-3190-a18f-5a3e1cff4c9a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\external.Build\vst3sdk\public.sdk\sdk_hosting.vcxproj">
+      <Project>{91cd8465-3bd7-3871-917b-5309dec7411c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

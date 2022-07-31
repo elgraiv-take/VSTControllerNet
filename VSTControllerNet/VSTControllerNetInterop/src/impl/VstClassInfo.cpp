@@ -1,6 +1,9 @@
 #include "VstClassInfo.Bridge.hpp"
 #include "VstPluginFactory.Bridge.hpp"
 #include "VstController.Bridge.hpp"
+#include "VstAudioProcessor.Bridge.hpp"
+#include "VstHostContext.Bridge.hpp"
+#include "VstHostContext.Native.hpp"
 #include <pluginterfaces/vst/ivstaudioprocessor.h>
 #include <pluginterfaces/vst/ivsteditcontroller.h>
 #include <pluginterfaces/base/ipluginbase.h>
@@ -18,7 +21,7 @@ namespace Elgraiv::VstControllerNet::Interop {
 
 			static CategoryConverter() {
 				auto dict = gcnew System::Collections::Generic::Dictionary<System::String^, ClassType>();
-				dict->Add(g_categoryAudioModule, ClassType::AudioModule);
+				dict->Add(g_categoryAudioModule, ClassType::AudioProcessor);
 				dict->Add(g_categoryController, ClassType::Controller);
 				g_classTypeDict = dict;
 
@@ -38,7 +41,7 @@ namespace Elgraiv::VstControllerNet::Interop {
 
 	VstClassInfo::Bridge::Bridge(const Steinberg::PClassInfo& info, VstPluginFactory::Bridge^ factory) :_factory(factory) {
 		_data = NativeStructHolder<Steinberg::PClassInfo>::CreateInstance();
-		auto& data = _data->GetData();
+		auto& data = **_data;
 
 		std::memcpy(&data, &info, sizeof(info));
 
@@ -48,22 +51,31 @@ namespace Elgraiv::VstControllerNet::Interop {
 
 	}
 
-	void VstClassInfo::Bridge::CreateInstance()
+	IVstModule^ VstClassInfo::Bridge::CreateInstance(VstClassInfo^ wrapper, VstHostContext^ context)
 	{
 		switch (_classType)
 		{
 		case Elgraiv::VstControllerNet::Interop::ClassType::Unknown:
 			break;
-		case Elgraiv::VstControllerNet::Interop::ClassType::AudioModule:
-			break;
+		case Elgraiv::VstControllerNet::Interop::ClassType::AudioProcessor:
+		{
+
+			auto component = _factory->CreateAudioProcessorInstance(_data->cid);
+			auto res1 = component->initialize(&**(context->NativeBridge->Host));
+			return gcnew VstAudioProcessor(gcnew VstAudioProcessor::Bridge(component, wrapper));
+		}
 		case Elgraiv::VstControllerNet::Interop::ClassType::Controller:
 		{
-			auto controller = _factory->CreateControllerInstance(_data->GetData().cid);
-			break;
+
+			auto controller =_factory->CreateControllerInstance(_data->cid);
+			auto res1 = controller->initialize(&**(context->NativeBridge->Host));
+			auto res2 = controller->setComponentHandler(&**context->NativeBridge->ComponentHandler);
+			return gcnew VstController(gcnew VstController::Bridge(controller, wrapper));
 		}
 		default:
 			break;
 		}
+		return nullptr;
 	}
 
 
@@ -73,9 +85,9 @@ namespace Elgraiv::VstControllerNet::Interop {
 	VstClassInfo::VstClassInfo(Bridge^ info) :_bridge(info) {
 
 	}
-	void VstClassInfo::CreateInstance()
+	IVstModule^ VstClassInfo::CreateInstance(VstHostContext^ context)
 	{
-		_bridge->CreateInstance();
+		return _bridge->CreateInstance(this, context);
 	}
 	System::String^ VstClassInfo::Name::get() {
 		return _bridge->Name;

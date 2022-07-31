@@ -4,17 +4,18 @@
 
 namespace Steinberg {
 	namespace Vst {
-		class IEditController;
+		class IComponent;
+		class IAudioProcessor;
 		class IConnectionPoint;
 	}
 }
 
 namespace Elgraiv::VstControllerNet::Interop {
 
-	ref class VstController::Bridge {
+	ref class VstAudioProcessor::Bridge {
 	public:
-		Bridge(Steinberg::Vst::IEditController* native, VstClassInfo^ classInfo);
-		ref class VstControllerView^ CreateView();
+		Bridge(Steinberg::Vst::IComponent* native, VstClassInfo^ classInfo);
+
 		property VstClassInfo^ ClassInfo {
 			VstClassInfo^ get() {
 				return _classInfo;
@@ -25,11 +26,13 @@ namespace Elgraiv::VstControllerNet::Interop {
 				return _connectionPoint;
 			}
 		}
+		void Activete();
+		void Deactivate();
 
 	private:
-		ManagedModuleHandle<Steinberg::Vst::IEditController>^ _native;
+		ManagedModuleHandle<Steinberg::Vst::IComponent>^ _native;
+		ManagedModuleHandle<Steinberg::Vst::IAudioProcessor>^ _processor;
 		VstConnectionPoint^ _connectionPoint;
 		VstClassInfo^ _classInfo;
 	};
-
 }
